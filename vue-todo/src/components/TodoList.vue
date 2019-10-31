@@ -2,14 +2,17 @@
 
     <section>
         <!-- <transition-group name="list" tag="ul"> -->
+        <button @click="getPHP()"></button>
         <ul>
-            <li v-for="(todoItem, index) in propsdata" class="shadow">
+            <li v-for="(todoItem, index) in propsdata" :key="index" class="shadow">
                 <!-- <i class="checkBtn fas fa-check" aria-hidden="true"></i> -->
                 <span @click="checkTodo(todoItem,index)">
-                    <i class="checkBtn far" v-bind:class="todoItem[1]?'fa-check-square':'fa-square'"></i>
+                    <i class="checkBtn far" v-bind:class="todoItem.checked?'fa-check-square':'fa-square'"></i>
                 </span>
                 <!-- <input type="text" v-model="newTodoItem[index]"  v-on:keyup.enter="editTodo"> -->
-                {{todoItem[0]}}
+                <span>
+                    <input  v-bind:class="todoItem.checked?'redLine':''" type="text" v-model="todoItem.title" placeholder="Type what you have to do" v-on:keyup.enter="addTodo">
+                </span>
                 <span class="editBtn" type="button" @click="editTodo(todoItem, index)">
                     <i class="far fa-edit" aria-hidden="true"></i>
                 </span>
@@ -39,6 +42,18 @@ export default {
         },
         checkTodo(todoItem,index){
             this.$emit('checkTodo',todoItem,index);
+        },
+        getPHP(){
+            axios({
+                url: 'http://localhost:8888/',
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    foo: 'diary'
+                }
+                }).then(response=>console.log(response));
         }
     }
 }

@@ -24,20 +24,26 @@ export default {
     //  }).catch();
 		if (localStorage.length > 0) {
 			for (var i = 0; i < localStorage.length; i++) {
-        // this.todoItems.push([localStorage.key(i),localStorage.key(i)[1]]);
+        // this.todoItems.push();
         // this.todoItems.push([localStorage.getItem(localStorage.key(i))]);
-        var item = localStorage.getItem(localStorage.key(i));
-        console.log(item);
-        this.todoItems.push([item[0],item[1]]);
-        console.log("item"+item[2]);
-			}
+        // var item = localStorage.getItem(localStorage.key(i));
+        // this.todoItems.push(item);
+        console.log(localStorage.getItem(localStorage.key(i)));
+        try{
+          var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+          this.todoItems.push(item);
+        }catch(e){
+
+        }
+      }
 		}
     },
   methods:{
     addTodo(todoItem){
       // 로컬 스토리지에 데이터를 추가
-      localStorage.setItem(todoItem[0],todoItem);
       this.todoItems.push(todoItem);
+      localStorage.setItem(todoItem.id,JSON.stringify(todoItem));
+      console.log(todoItem);
     },
     editTodo(todoItem,index){
       console.log(todoItem);
