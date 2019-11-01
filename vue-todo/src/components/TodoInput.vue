@@ -1,4 +1,5 @@
 <template>
+<!-- js date plugin fullcalendar X -->
     <div class="inputBox shadow">
         <input type="text" v-model="newTodoItem" placeholder="Type what you have to do" v-on:keyup.enter="addTodo">
         <span class ="addContainer"  v-on:click="addTodo">
@@ -28,7 +29,7 @@ export default {
         addTodo() {
         if (this.newTodoItem !== "") {
             var value = this.newTodoItem && this.newTodoItem.trim();
-                    this.$emit('addTodo', {id:value,title:value,checked:false})
+                    this.$emit('addTodo',{content:value});
             this.clearInput();
         } else {
             this.showModal = !this.showModal;

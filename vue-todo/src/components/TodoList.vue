@@ -2,16 +2,15 @@
 
     <section>
         <!-- <transition-group name="list" tag="ul"> -->
-        <button @click="getPHP()"></button>
         <ul>
             <li v-for="(todoItem, index) in propsdata" :key="index" class="shadow">
                 <!-- <i class="checkBtn fas fa-check" aria-hidden="true"></i> -->
                 <span @click="checkTodo(todoItem,index)">
-                    <i class="checkBtn far" v-bind:class="todoItem.checked?'fa-check-square':'fa-square'"></i>
+                    <i class="checkBtn far" v-bind:class="parseInt(todoItem[2])?'fa-check-square':'fa-square'"></i>
                 </span>
                 <!-- <input type="text" v-model="newTodoItem[index]"  v-on:keyup.enter="editTodo"> -->
                 <span>
-                    <input  v-bind:class="todoItem.checked?'redLine':''" type="text" v-model="todoItem.title" placeholder="Type what you have to do" v-on:keyup.enter="addTodo">
+                    <input  v-bind:class="parseInt(todoItem[2])?'redLine':''" type="text" v-model="todoItem[1]" placeholder="Type what you have to do" v-on:keyup.enter="addTodo">
                 </span>
                 <span class="editBtn" type="button" @click="editTodo(todoItem, index)">
                     <i class="far fa-edit" aria-hidden="true"></i>
@@ -35,26 +34,26 @@ export default {
     },
     methods: {
         editTodo(todoItem,index){
-            this.$emit('editTodo',todoItem,index);
+            this.$emit('editTodo',{id:todoItem[0],content:todoItem[1]},index);
         },
         removeTodo(todoItem,index){
-            this.$emit('removeTodo',todoItem,index);
+            this.$emit('removeTodo',{id:todoItem[0]},index);
         },
         checkTodo(todoItem,index){
-            this.$emit('checkTodo',todoItem,index);
+            this.$emit('checkTodo',{id:todoItem[0],content:todoItem[1],status:todoItem[2]},index);
         },
         getPHP(){
             axios({
-                url: 'http://localhost:8888/',
+                url: 'http://localhost:8888/todo/db.php',
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 data: {
-                    foo: 'diary'
+                    mode:'show'
                 }
-                }).then(response=>console.log(response));
-        }
+                }).then(response=>console.log(response.data.fetch));
+            }
     }
 }
 </script>
